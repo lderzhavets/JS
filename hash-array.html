@@ -1,0 +1,142 @@
+<html>
+
+<script>
+  
+
+
+
+//type tTelephoneRecordWithOneHashCode = array of record
+ // fullName: shortstring;
+  //number: shortstring;
+//end;
+
+var telephoneRecord = new Array(1000000); 
+
+
+//пусть наша хеш-фунция возвращает результат в пределах от 0 до 1е6
+function hash(s){
+  var res = 0;
+
+  
+
+  for (var i=0; i<s.length; i++){
+  
+    res=res+s.charCodeAt(i) + Math.round(1000*Math.sin(res));
+  }
+
+
+  res=100;//Math.round(Math.abs(1000000*Math.sin(res)));
+
+  return(res);
+}
+
+
+
+
+
+function assign(name, tel_number){
+var n;
+ 
+var s = hash(name); // s теперь число от нуля до миллиона
+//  увеличиваем длину массива TelephoneRecord
+
+//  Writeln('Hash(',name,')=',s);
+  
+  //ленивая инициализация 
+  
+  if (typeof telephoneRecord[s]=='undefined') {alert(s); telephoneRecord[s]=[];}
+  
+  n = telephoneRecord[s].length;
+
+  if (typeof telephoneRecord[s][n]=="undefined") telephoneRecord[s][n]={};
+
+
+
+  //сначала поищем, нет ли такой переменной уже в таблице
+  for (var i=0; i<n; i++){
+  
+     if (telephoneRecord[s][i].fullName == name) 
+     {
+      // значит увеличивать массив нет нужды,
+      // и мы должны только заменить значение, соответствующее name
+      telephoneRecord[s][i].number=tel_number;
+      return;
+    }
+
+     }
+
+  
+
+
+  
+
+
+  //telephoneRecord[s].length = n + 1;
+  //ленивая инициализация опять
+  
+  
+
+  telephoneRecord[s][n].fullName=name;
+  telephoneRecord[s][n].number=tel_number;
+
+}
+
+
+function getValue(name){
+
+
+
+  var s=hash(name); // s теперь число от нуля до миллиона
+  var n=telephoneRecord[s].length;
+
+//  Writeln('длина массива = ',n);
+//  Writeln('Hash(',name,')=',s);
+
+  for (var i=0; i<n; i++){
+  
+   if (telephoneRecord[s][i].fullName == name) return telephoneRecord[s][i].number;
+  }
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+  
+  assign('Kate','90 60 90 Kates figures');
+  assign('Kate','90 60 90 Kates new figures');
+
+document.write('Kate',getValue("Kate"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+<body>
+  Here we implement a hash-table 
+
+</body>
+
+</html>

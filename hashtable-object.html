@@ -1,0 +1,132 @@
+<html>
+
+    <meta charset="utf-8">
+
+    <script>
+
+        function HashTable(maxBucketParameter) {
+            
+            var maxBucketNumber;
+
+            if (typeof maxBucketParameter == "undefined" )
+                 maxBucketNumber = 1000000 // размер таблицы по умолчанию
+            else
+                 maxBucketNumber = maxBucketParameter;
+
+
+            var record = new Array(maxBucketNumber);
+            //пусть наша хеш-фунция возвращает результат в пределах от 0 до 1е6
+
+            hash = function (s) {
+                var res = 2166136261;
+                var FNV_prime = 16777619;
+                for (var i = 0; i < s.length; i++) 
+                    res = ( res ^ (s.charCodeAt(i)) ) * FNV_prime;
+                res = res % maxBucketNumber; 
+                return res;
+
+            }
+
+ 
+            this.assign = function (name, var_value) {
+                var n;
+                // s теперь число от нуля до миллиона
+                var s = hash(name);
+
+                //ленивая инициализация 
+                if (typeof record[s] == 'undefined') record[s] = [];
+                n = record[s].length;
+                if (typeof record[s][n] == "undefined") record[s][n] = {};
+
+                //сначала поищем, нет ли такой переменной уже в таблице
+                for (var i = 0; i < n; i++) 
+                    if (record[s][i].varName == name) {
+                        // значит увеличивать массив нет нужды,
+                        // и мы должны только заменить значение, соответствующее name
+                        record[s][i].value = var_value;
+                        return;
+                    }
+
+                record[s][n].varName = name;
+                record[s][n].value = var_value;
+            }
+
+ 
+
+            this.getValue = function (name) {
+                var s = hash(name); // s теперь число от нуля до миллиона
+
+                if (typeof record[s] == "undefined") return "undefined";
+                var n = record[s].length;
+
+                for (var i = 0; i < n; i++) 
+                    if (record[s][i].varName == name) return record[s][i].value;
+            }
+
+
+            this.varExists = function (varName) {
+                var s = hash(varName); // s теперь число от нуля до миллиона
+
+                // в том случае, если не определен даже массив, то точно надо вернуть false
+                if (typeof record[s] == "undefined") return false;
+                //если всё же массив существует, то можно и получить его длину
+                var n = record[s].length;
+                for (var i = 0; i < n; i++) 
+                    if (record[s][i].varName == varName) return true;   
+                return false;
+            }
+
+             this.deleteVar = function (varName) {
+                if (!this.varExists(varName)) return false; 
+
+                var s = hash(varName); // s теперь число от нуля до миллиона                
+                //alert(varName);
+
+                // т.к. переменная varName существует...
+                var n = record[s].length;
+                for (var i = 0; i < n; i++) 
+                    if (record[s][i].varName == varName) {
+                        //alert(i);
+                        record[s].splice(i,1);
+                        return true;
+                    }   
+
+
+
+
+            }
+
+            return this; // конец конструктора
+
+        }
+ 
+
+ 
+        // --------------------------- Проверяем ------------------------------
+        var a = new HashTable(1000);
+        var b = new HashTable();
+
+        a.assign('Kate', '90 60 90 Kate\'s figure figures');
+        a.assign('Masha', '90 60 90 Masha\'s figure figures');
+
+        b.assign('Kate', '90 60 90 Kate\'s figure figures ***');
+        b.assign('Masha', '90 60 90 Masha\'s figure figures ***');
+
+        document.write('Masha ', a.getValue("Masha"), "<br>");
+        document.write('Kate ', a.getValue("Kate"), "<br>");
+
+        document.write('check if exists Masha - ', a.varExists("Masha"), "<br>");
+        document.write('check if exists Kate - ', a.varExists("Kate"), "<br>");
+      
+
+        
+    
+        a.deleteVar("Masha");
+        document.write('<br>check if exists Masha - ', a.varExists("Masha"), "<br>");
+        document.write('check if exists Kate - ', a.varExists("Kate"), "<br>");
+        document.write('Masha ', a.getValue("Masha"), "<br>");
+
+    </script>
+    <body>Делаем хеш-таблицу</body>
+</html>
+

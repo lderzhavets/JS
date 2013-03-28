@@ -1,0 +1,47 @@
+<script>
+	n=5;
+	m=7;
+	matrix=new Array();
+	newMatrix = new Array();
+
+	function initMatrix()
+	{
+		for (var i=0; i<=n-1; i++)
+	 	  {matrix[i]= new Array();}
+
+	 	for(var i=0; i<=n-1;i++)
+	 		for (var j=0; j<=m-1; j++)
+	 		 { matrix[i][j] = i+j/10 + ' ';} 		 
+	}	
+
+	function rotate()
+	{
+
+	  for(var i = 0;i <= m-1;i++)
+	  	{ newMatrix[i] = new Array();}
+
+	  for(var i = 0; i <= m-1; i++ )
+	  	for(var j = 0; j <= n-1; j++)
+	  		{ newMatrix[i][j] = matrix[n-j-1][i];}
+
+	}
+
+
+
+	function showMatrix(n,m,mat){
+		for(var i=0; i<=n-1;i++)
+		{
+	 		for (var j=0; j<=m-1; j++)
+	 			document.write(mat[i][j]);
+	 	document.write('<br>');
+	 	}
+	}
+
+	initMatrix(matrix);
+	showMatrix(n,m,matrix);
+	rotate(matrix,newMatrix);
+	document.write('<br>');
+	showMatrix(m,n,newMatrix);
+			
+	</script>	
+

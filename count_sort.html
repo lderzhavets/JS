@@ -1,0 +1,77 @@
+<html>
+
+    <meta charset="utf-8">
+
+    <script>
+
+    Array.prototype.maxValue = function(){
+    	var maxItem=this[0];
+    	for (var i = 1; i < this.length; i++) 
+    		if (this[i] > maxItem) maxItem = this[i]; 
+    	return maxItem;
+    }
+     
+    
+    Array.prototype.minValue = function(){
+    	var minItem=this[0];
+    	for (var i = 1; i < this.length; i++) 
+    		if (this[i] < minItem) minItem = this[i];
+    	return minItem;
+    }
+    	
+    
+	function printArray(a){
+		var s='';
+  		for (var i=0; i<a.length; i++)
+   			s=s+'№'+i+') <b>'+a[i]+'</b><br>';
+  
+
+		document.write('<br>***Printing array***<br>'+s+'<br>***<br>');
+    }
+
+	function randomFill(a,n){
+  		for ( var i=0; i<n; i++) a[i]=100+Math.round(20*Math.random());
+    }
+
+     
+
+    function countSort(a){
+    	
+    	var maxValue = a.maxValue();
+    	var minValue = a.minValue();
+    	//  значения-числа в массиве a лежат в интервале [minValue, maxValue]
+
+        var b = new Array (maxValue - minValue + 1);
+        for (var i = 0; i < b.length; i++) { // обнуляем
+        	b[i] = 0;
+        };
+
+
+        // составили каталог - сколько каких элементов 
+        // при этом b[0] - количество элементов со значением minValue 
+    	for (var i = 0; i < a.length; i++) {
+    		b[a[i]-minValue]++;
+    	};
+
+    	var x=0;
+    	for (var i = 0; i < b.length; i++) {
+    		for (var j = 1; j <= b[i]; j++) {
+    			a[x]=i+minValue;
+    			x++;
+    		};
+    	};
+    }
+
+
+    var a = new Array;
+    randomFill(a,12);
+    printArray(a);
+    
+    countSort(a);
+    document.write(" <br>Теперь в отсортированном виде <br>");
+    printArray(a);
+
+    </script>
+    <body>Сортировка подсчётом</body>
+</html>
+

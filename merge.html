@@ -1,0 +1,70 @@
+<script type>
+
+var a1 = [];
+
+function randfill(a,n)
+{
+for(var i=0;i<n;i++)
+{a[i] = Math.round(1000*Math.random());}
+
+}
+
+randfill(a1,5);
+for (var i=0;i<5;i++)
+document.write('<br>' + a1[i]);
+
+function merge_sort(a)
+{
+var res=[];
+var a_left=[], a_right = [];
+res[0]=a[0];
+
+
+if (a.length > 1)
+{
+a_left = a.slice(0, (a.length >> 1));
+a_right = a.slice((a.length >> 1));
+res=merge(merge_sort(a_left),merge_sort( a_right ));
+}
+
+
+return(res)
+
+}
+
+function merge(b,c)
+{
+var j,k;
+var res=[];
+
+j=0;
+k=0;
+
+for (var i=0; i < b.length+c.length; i++)
+{
+if ((j != b.length) && (k == c.length || b[j] <= c[k]))
+{
+res[i]=b[j];
+j++;
+}
+else
+{
+res[i]=c[k];
+k++;
+}
+
+}
+return res;
+
+}
+
+document.write('<br>');
+
+var res=[];
+res = merge_sort(a1);
+for (var i=0;i<5;i++)
+document.write('<br>' + res[i]);
+
+//document.write('<br>' +res);
+
+</script>

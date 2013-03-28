@@ -1,0 +1,69 @@
+<script type>
+var a=[];
+var res = [];
+var b=[];
+
+
+n=10
+ for (var i=0; i<=n; i++)
+  { a[i]=Math.round(1000*Math.random());}
+
+
+
+
+document.write(a);
+
+
+
+
+function qSort(ar, down, up) 
+{
+      var i,j,x,temp;
+      
+    
+
+      i = down;
+      j = up;
+      x = ar[(up+down) >> 1];
+    
+      while(i < j){
+
+
+      while(ar[i] < x) {i++;}
+      while(ar[j] > x) {j--;}
+    
+      
+      if(i <= j){
+        temp = ar[i];
+        ar[i] = ar[j];
+        ar[j] = temp;
+        i++; 
+        j--;}
+    
+      //document.write('<br>' + ar);
+      //document.write('<br>' + i+j);
+
+      
+      }
+      //return ar;
+     
+ 
+      //ar=qSort(ar,0,3);
+
+      
+      if(down < j)  qSort(ar, down, j);
+      if(i < up) ar = qSort(ar, i, up);
+      
+     
+
+     }     
+     
+    
+
+  
+
+ qSort(a,0,n);
+  
+ document.write('<br>' + a);
+
+  </script>
